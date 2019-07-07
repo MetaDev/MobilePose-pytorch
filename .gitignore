@@ -5,11 +5,10 @@
 *.txt
 !requirements.txt
 *.pyc
-models
 results
 __pycache__
 others
 .vscode
-.gitignore
-.pycocotools
 .idea
+pretrained
+*.pth

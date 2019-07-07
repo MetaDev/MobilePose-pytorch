@@ -7,22 +7,31 @@ Some codes for networks and display are brought from:
 2. [Vanilla FCN, U-Net, SegNet, PSPNet, GCN, DUC](https://github.com/zijundeng/pytorch-semantic-segmentation)
 3. [Shufflenet-v2-Pytorch](https://github.com/ericsun99/Shufflenet-v2-Pytorch)
 4. [tf-pose-estimation](https://github.com/ildoonet/tf-pose-estimation) 
-5. [DSNTNN](https://github.com/anibali/dsntnn)
+5. [dsntnn](https://github.com/anibali/dsntnn)
+
+## NEWS!
+
+- Mar 2019: Support running on MacBook with decent FPS!  
+- Feb 2019: **ALL** the pretrained model files are avaliable!
 
 ## Requirements
 
-- Python 3.6
-- PyTorch 0.4 
+- Python 3.7
+- PyTorch 1.0
+- [dsntnn 1.0](https://github.com/anibali/dsntnn)
 
 ## Evaluation Results
 
-|Model|Parmas(M)|Flops(G)|mAP(0.5IoU)|mAR(0.5IoU)|Google Drive|
-|---|---|---|---|---|---|
-|UNet+DSNTNN|29.60|9.37|||[119M]()|
-|ResNet18+DUC+DSNTNN|12.26|1.64|||[50M]()|
-|ResNet18(stride=2)+DSNTNN|10.66|32.66|0.901|0.947|[43M](https://drive.google.com/open?id=1MoAQoQyThrluGrRv6ZaKlrM14yvkCWrt)|
-|MobileNetV2+DUC+DSNTNN|3.91|0.49|0.807|0.899|[16M](https://drive.google.com/open?id=1Meyz8Jg2aRe8ijeBAY1uCRpV9l5OJoXl)|
-|ShuffleNetV2+DUC+DSNTNN|2.92|0.31|0.637|0.796|[12M](https://drive.google.com/open?id=1pKChewpUFA0CINdLUnV9sUxkscTF5Q_0)|
+|Model(+DUC+DSNTNN)|Parmas(M)|Flops(G)|AP@0.5:0.95|AP@0.5|AR@0.5:0.95|AR@0.5|Link|
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|ResNet18|12.26|1.64|**68.2**|93.9|**79.7**|96.7|[51.5M](https://drive.google.com/open?id=17Z1zetIVDI4_8-ZoFgTRsjHtDpwGtjRT)|
+|MobileNetV2|3.91|0.49|67.5|**94.9**|79.4|**97.1**|[16.6M](https://drive.google.com/open?id=15Ihv1bVQv6_tYTFlECJMNrXEmrrka5g4)|
+|ShuffleNetV2|2.92|**0.31**|61.5|91.6|74.8|95.5|[12.4M](https://drive.google.com/open?id=184Zg4E6HbbizPFYcELMXCd7mwWXdUd3U)|
+|SqueezeNet1.1|**2.22**|0.63|58.4|92.1|72.3|95.8|[9.3M](https://drive.google.com/open?id=1RePeiBJHeHvmYTQ5vAUJHC5CstHIBcP0)|
+
+<div align="center">
+    <img src="./demo.png">
+</div>
 
 ## Features
 
@@ -31,20 +40,30 @@ Some codes for networks and display are brought from:
 - [x] performance evaluation (eval.py)
 - [x] multiple models support (network.py)
 - [x] ipython notebook visualization (demo.ipynb)
-- [ ] Macbook camera realtime display script (run_webcam.py)
+- [x] Macbook camera realtime display script (run_webcam.py)
 
 ## Usage
 
-1. Training:
+1. Installation:
+
 ```shell
-python training.py --model=mobilenet2 --gpu=0 --inputsize=224 --lr 1e-3 --batchsize=128 --t7=./models/shufflenetv2_224_sgb_best.t7
+pip install -r requirements.txt
 ```
-2. Evaluation
+2. Training:
+```shell
+python training.py --model shufflenetv2 --gpu 0 --inputsize 224 --lr 1e-3 --batchsize 128 --t7 ./models/shufflenetv2_224_adam_best.t7
+```
+3. Evaluation
 ```shell
 ln -s cocoapi/PythonAPI/pycocotools
 cd cocoapi/PythonAPI && make
 
-python eval.py --t7=./models/resnet18_224_sgd_best.t7 --model=resnet18 --gpu=0
+python eval.py --t7 ./models/resnet18_224_adam_best.t7 --model resnet18 --gpu 0
+```
+4. Web Camera Demo (MacBook)
+
+```shell
+python run_webcam.py --model squeezenet --inp_dim 224 --camera 0
 ```
 
 ## Contributors
